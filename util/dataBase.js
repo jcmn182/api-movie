@@ -10,7 +10,7 @@ const sequelize = new Sequelize({
 	password: process.env.DB_PASSWORD_HEROKU,
 	port: 5432,
 	database: process.env.DB_HEROKU,
-    dialect: 'postgres',
+	dialect: 'postgres',
     dialectOptions: {
         		ssl: {
         			require: true,

@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 //utils
 const {sequelize} = require('../util/dataBase.js');
 
-const Task = sequelize.define('task',{
+const ActorsInMovies = sequelize.define('actorsInMovies',{
 
     id: {
 		primaryKey: true,
@@ -11,15 +11,14 @@ const Task = sequelize.define('task',{
 		autoIncrement: true,
 		allowNull: false,
 	},
-	content: {
-		type: DataTypes.STRING(255),
+    actorId: {
+		type: DataTypes.INTEGER,
 		allowNull: false,
-	},
-	status: {
-		type: DataTypes.STRING(10),
+    },
+    movieId: {
+		type: DataTypes.INTEGER,
 		allowNull: false,
-		defaultValue: 'active',
 	}
 })
 
-module.exports = { Task };
+module.exports = { ActorsInMovies };
