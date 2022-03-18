@@ -16,19 +16,19 @@ const Movies = sequelize.define('movies',{
 		allowNull: false,
     },
     description: {
-		type: DataTypes.NUMBER(100),
+		type: DataTypes.STRING(255),
 		allowNull: false,
 	},
 	duration: {
-		type:DataTypes.STRING(100),
+		type:DataTypes.INTEGER,
 		allowNull: false
 	},
 	raiting: {
-		type:DataTypes.STRING(100),
+		type:DataTypes.INTEGER,
 		allowNull: false
     },
     img: {
-		type:DataTypes.STRING(100),
+		type:DataTypes.STRING(255),
 		allowNull: false
     },
     genre: {

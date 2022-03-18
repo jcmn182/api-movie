@@ -24,15 +24,16 @@ const Actors = sequelize.define('actors',{
 		allowNull: false
 	},
 	age: {
-		type: DataTypes.STRING(10),
+		type: DataTypes.INTEGER,
 		allowNull: false
 	},
 	profilePick: {
-		type: DataTypes.STRING(10),
+		type: DataTypes.STRING(255),
 		allowNull: false
 	},
 	status: {
 		type: DataTypes.STRING(10),
+		defaultValue: 'active',
 		allowNull: false
 	}
 })
