@@ -1,3 +1,11 @@
+//tools
+const bcrypt = require('bcryptjs');
+//jwt
+const jwt = require('jsonwebtoken');
+// dot env
+const path = require('path')
+require('dotenv').config({ path: path.resolve(__dirname, '../config.env') });
+
 //Models
 const { Users } = require('../models/user.model.js');
 const { Reviews } = require('../models/reviews.model.js');
@@ -49,17 +57,51 @@ exports.createNewUser = catchAsync(async (req, res, next) => {
         );
       }
 
-    const newUser = await User.create({
+    const salt = await bcrypt.genSalt(12);
+
+    const hashedPassword = await bcrypt.hash(password, salt)
+
+    const newUser = await Users.create({
         userName,
         email,
-        password,
+        password:hashedPassword,
         role
       });
 
-    res.status(201).json({
+      // Remove password from response
+      newUser.password = undefined;
+
+      res.status(201).json({
         status: 'success',
         data: { newUser }
       });
+
+});
+
+exports.loginUser = catchAsync(async (req, res, next) => {
+  
+  const { email, password } = req.body;
+
+  // Find user given an email and has status active
+  const user = await Users.findOne({
+    where: { email, status: 'active' }
+  })
+
+ // Compare entered password vs hashed password
+ if (!user || !(await bcrypt.compare(password, user.password))) {
+  return next(new AppError(400, 'Credentials are invalid'));
+}
+
+    const token = await jwt.sign(
+      { id:user.id }, // Token payload
+      process.env.JWT_SECRET, 
+      { expiresIn: process.env.JWT_EXPIRATION }
+    );
+
+    res.status(200).json({
+      status: 'success',
+      data: {user, token} 
+    });
 
 });
 

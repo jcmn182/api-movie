@@ -1,9 +1,9 @@
 const { DataTypes } = require('sequelize');
 
 //utils
-const {sequelize} = require('../util/dataBase.js');
+const {db} = require('../util/dataBase.js');
 
-const User = sequelize.define('user',{
+const Users = db.define('users',{
 
     id: {
 		primaryKey: true,
@@ -36,4 +36,4 @@ const User = sequelize.define('user',{
 	}
 })
 
-module.exports = { User };
+module.exports = { Users };

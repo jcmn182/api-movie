@@ -1,9 +1,9 @@
 const { DataTypes } = require('sequelize');
 
 //utils
-const {sequelize} = require('../util/dataBase.js');
+const { db } = require('../util/dataBase.js');
 
-const ActorsInMovies = sequelize.define('actorsInMovies',{
+const ActorsInMovies = db.define('actorsInMovies',{
 
     id: {
 		primaryKey: true,

@@ -47,7 +47,7 @@ exports.createNewMovie = catchAsync(async (req, res, next) => {
         );
       }
 
-    const newMovie = await User.create({
+    const newMovie = await Movies.create({
         tittle,
         description,
         duration,

@@ -1,9 +1,9 @@
 const { DataTypes } = require('sequelize');
 
 //utils
-const {sequelize} = require('../util/dataBase.js');
+const {db} = require('../util/dataBase.js');
 
-const Reviews = sequelize.define('reviews',{
+const Reviews = db.define('reviews',{
 
     id: {
 		primaryKey: true,

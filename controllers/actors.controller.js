@@ -14,7 +14,7 @@ exports.getAllActors = catchAsync(async (req, res, next) => {
             model: Movies,
             include: [
               {
-                model: Actors,
+                model: Actors
               }
             ]
           },
@@ -55,7 +55,7 @@ exports.createNewActor = catchAsync(async (req, res, next) => {
         );
       }
 
-    const newActor = await User.create({
+    const newActor = await Actors.create({
         name,
         country,
         age,

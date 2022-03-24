@@ -6,7 +6,7 @@ const {
     createNewActor,
     updateActor,
     deleteActor
-} = require('../controllers/actors.controller');
+} = require('../controllers/actors.controller.js');
 
 const router = express.Router();
 

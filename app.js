@@ -6,7 +6,7 @@ const { globalErrorHandler } = require('./controllers/error.controller.js');
 //routes
 const {actorsRouter} = require('./routes/actors.route.js');
 const {moviesRouter} = require('./routes/movies.route.js');
-const {usersRouter} = require('./routes/actors.users.js');
+const {usersRouter} = require('./routes/users.route.js');
 
 //Utils
 const {AppError} =require('./util/appError.js');

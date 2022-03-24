@@ -1,10 +1,10 @@
 const { app } = require('./app');
 
 // Utils
-const { sequelize } = require('./util/database');
+const { db } = require('./util/dataBase.js');
 const { initModels } = require('./util/initModels');
 
-sequelize
+db
   .authenticate()
   .then(() => console.log('Database authenticated'))
   .catch((err) => console.log(err));
@@ -12,7 +12,7 @@ sequelize
 // Models relations
 initModels();
 
-sequelize
+db
   .sync()
   .then(() => console.log('Database synced'))
   .catch((err) => console.log(err));

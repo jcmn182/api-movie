@@ -1,9 +1,9 @@
 const { DataTypes } = require('sequelize');
 
 //utils
-const {sequelize} = require('../util/dataBase.js');
+const {db} = require('../util/dataBase.js');
 
-const Actors = sequelize.define('actors',{
+const Actors = db.define('actors', {
 
     id: {
 		primaryKey: true,
@@ -21,7 +21,6 @@ const Actors = sequelize.define('actors',{
 	},
 	raiting: {
 		type: DataTypes.STRING(10),
-		allowNull: false
 	},
 	age: {
 		type: DataTypes.INTEGER,
