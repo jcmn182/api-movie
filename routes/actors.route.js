@@ -1,5 +1,7 @@
 const express = require('express');
 
+const { body } = require('express-validator');
+
 const {
     getAllActors,
     getActorById,
@@ -23,7 +25,28 @@ router.get('/:id', getActorById);
 
 router.use(validateSession);
 
-router.post('/', createNewActor);
+router
+  .route('/')
+  .get(getAllActors)
+  .post(
+    protectAdmin,
+    [
+      body('name')
+      .isString()
+      .notEmpty(),
+      body('country')
+        .isString()
+        .withMessage('Country must be a string')
+        .notEmpty()
+        .withMessage('Must provide a valid country name'),
+      body('age')
+        .isNumeric()
+        .withMessage('Age must be a number')
+        .custom((value) => value > 0)
+        .withMessage('Age must be greater than 0')
+    ],
+    createNewActor
+  );
 
 router.patch('/:id', updateActor);
 

@@ -1,3 +1,5 @@
+const { validationResult } = require('express-validator');
+
 //Models
 const {Movies} = require('../models/movies.model.js');
 const {Actors} = require('../models/actors.model');
@@ -5,6 +7,7 @@ const { Posts } = require('../models/post.models.js');
 
 // Utils
 const { catchAsync } = require('../util/catchAsycn.js');
+const { AppError } = require('../util/appError.js');
 const { filterObj } = require('../util/filterObj.js');
 
 exports.getAllMovies = catchAsync(async (req, res, next) => {
@@ -50,14 +53,18 @@ exports.getMovieById = catchAsync(async (req, res, next) => {
 });
 
 exports.createNewMovie = catchAsync(async (req, res, next) => {
-  
-    const {tittle, description, duration, img, genre} = req.body;
 
-    if (!tittle || !description || !duration || !img  || !genre) {
-        return next(
-          new AppError(400, 'Must provide a valid values')
-        );
-      }
+  const { tittle, description, duration, img, genre } = req.body;
+  
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+      const errorMsg = errors
+        .array()
+        .map(({ msg }) => msg)
+        .join('. ');
+      return next(new AppError(400, errorMsg));
+    }
 
     const newMovie = await Movies.create({
         tittle,

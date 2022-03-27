@@ -1,3 +1,5 @@
+const { validationResult } = require('express-validator');
+
 //Models
 const { Actors } = require('../models/actors.model.js');
 const { Movies } = require('../models/movies.model.js');
@@ -6,6 +8,7 @@ const { ActorsInMovies } = require('../models/actorsInMovie.model');
 // Utils
 const { catchAsync } = require('../util/catchAsycn.js');
 const { filterObj } = require('../util/filterObj.js');
+const { AppError } = require('../util/appError.js');
  
 exports.getAllActors = catchAsync(async (req, res, next) => {
     
@@ -48,13 +51,20 @@ exports.getActorById = catchAsync(async (req, res, next) => {
 
 exports.createNewActor = catchAsync(async (req, res, next) => {
     
-    const {name, country, age, profilePick, movieId} = req.body;
+  const { name, country, age, profilePick, movieId } = req.body;
 
-    if (!name || !country || !age || !profilePick) {
-        return next(
-          new AppError(400, 'Must provide a valid name, email and password')
-        );
-      }
+  // Validate req.body
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+  
+    const errorMsg = errors
+      .array()
+      .map(({ msg }) => msg)
+      .join('. ');
+
+    return next(new AppError(400, errorMsg));
+  }
 
     
     const newActor = await Actors.create({

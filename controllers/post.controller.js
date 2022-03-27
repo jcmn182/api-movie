@@ -9,7 +9,7 @@ const { AppError } = require('../util/appError.js');
 
 
 
-exports.getAllReviews = catchAsync(async (req, res, next) => {
+exports.getAllPost = catchAsync(async (req, res, next) => {
   
   const post = await Posts.findAll({
     where: { status: 'active' },
@@ -25,7 +25,7 @@ exports.getAllReviews = catchAsync(async (req, res, next) => {
 });
 
 // Get post by id
-exports.getReviewById = catchAsync(async (req, res, next) => {
+exports.getPostById = catchAsync(async (req, res, next) => {
   const { id } = req.params;
 
   
@@ -46,7 +46,7 @@ exports.getReviewById = catchAsync(async (req, res, next) => {
 });
 
 // Save post to database
-exports.createReview = catchAsync(async (req, res, next) => {
+exports.createPost = catchAsync(async (req, res, next) => {
 
   const { tittle, comment, movieId,  } = req.body;
 
@@ -71,7 +71,7 @@ exports.createReview = catchAsync(async (req, res, next) => {
 });
 
 // Update post (patch)
-exports.updateReviewPatch = catchAsync(async (req, res, next) => {
+exports.updatePostPatch = catchAsync(async (req, res, next) => {
   
     const { id } = req.params;
     const data = filterObj(req.body, 'tittle', 'comment'); // { title } | { title, author } | { content }
@@ -91,7 +91,7 @@ exports.updateReviewPatch = catchAsync(async (req, res, next) => {
 });
 
 // Delete post
-exports.deleteReview = catchAsync(async (req, res, next) => {
+exports.deletePost = catchAsync(async (req, res, next) => {
   
     const { id } = req.params;
 
