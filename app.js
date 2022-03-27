@@ -7,6 +7,7 @@ const { globalErrorHandler } = require('./controllers/error.controller.js');
 const {actorsRouter} = require('./routes/actors.route.js');
 const {moviesRouter} = require('./routes/movies.route.js');
 const {usersRouter} = require('./routes/users.route.js');
+const {reviewsRouter} = require('./routes/reviews.route.js');
 
 //Utils
 const {AppError} =require('./util/appError.js');
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use('/api/v1/actors', actorsRouter);
 app.use('/api/v1/movies', moviesRouter);
 app.use('/api/v1/users', usersRouter);
+app.use('/api/v1/reviews', reviewsRouter);
 
 
 app.use('*', (req, res, next) => {

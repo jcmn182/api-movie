@@ -1,16 +1,22 @@
 //Models
 const {Movies} = require('../models/movies.model.js');
 const {Actors} = require('../models/actors.model');
-const { Reviews } = require('../models/reviews.model.js')
+const { Posts } = require('../models/post.models.js');
 
 // Utils
 const { catchAsync } = require('../util/catchAsycn.js');
- 
+const { filterObj } = require('../util/filterObj.js');
+
 exports.getAllMovies = catchAsync(async (req, res, next) => {
     
     const movies = await Movies.findAll({
         where: { status: 'active' },
-        include: [ { model: Actors,}, { model: Reviews,} ]
+        include: [ 
+          { 
+            model: Actors,
+            attributes: [ 'name' ] 
+          },
+          { model: Posts} ]
       });
 
     res.status(200).json({
@@ -24,7 +30,13 @@ exports.getMovieById = catchAsync(async (req, res, next) => {
   
     const { id } = req.params;
 
-    const movie = await Movies.findOne({ where: { id } });
+    const movie = await Movies.findOne({ where: { id },
+      include: [ { 
+        model: Actors,
+        attributes: [ 'name' ] 
+      }, 
+      { model: Posts} ]
+    });
 
     if (!movie) {
         return next(new AppError(404, 'Actor not found'));
@@ -65,13 +77,13 @@ exports.createNewMovie = catchAsync(async (req, res, next) => {
 exports.updateMovie = catchAsync(async (req, res, next) => {
     
     const { id } = req.params;
-    const data = filterObj(req.body, 'tittle', 'description', 'duration', 'img', 'genre' ); // { title } | { title, author } | { content }
+    const data = filterObj(req.body, 'tittle', 'description', 'duration', 'img', 'genre' ); 
 
-    const actor = await Actors.findOne({
+    const movie = await Movies.findOne({
       where: { id: id, status: 'active' }
     });
 
-    if (!actor) {
+    if (!movie) {
       res.status(404).json({
         status: 'error',
         message: 'Cant update movie, invalid ID'
@@ -79,7 +91,7 @@ exports.updateMovie = catchAsync(async (req, res, next) => {
       return;
     }
 
-    await actor.update({ ...data }); // .update({ title, author })
+    await movie.update({ ...data }); 
 
     res.status(204).json({ status: 'success' });
 

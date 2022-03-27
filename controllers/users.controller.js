@@ -8,20 +8,21 @@ require('dotenv').config({ path: path.resolve(__dirname, '../config.env') });
 
 //Models
 const { Users } = require('../models/user.model.js');
-const { Reviews } = require('../models/reviews.model.js');
+const { Posts } = require('../models/post.models.js');
 
 // Utils
 const { catchAsync } = require('../util/catchAsycn.js');
+const { filterObj } = require('../util/filterObj.js');
  
 exports.getAllUsers = catchAsync(async (req, res, next) => {
   
     const users = await Users.findAll({
         where: { status: 'active' },
         include: [
-          { model: Reviews },
-        ]
+          { model: Posts },
+        ],
+        order:[["id", "desc"]]
       });
-
     res.status(200).json({
         status: 'success',
         data: { users }

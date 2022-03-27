@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 //utils
 const {db} = require('../util/dataBase.js');
 
-const Reviews = db.define('reviews',{
+const Posts = db.define('post',{
 
     id: {
 		primaryKey: true,
@@ -35,4 +35,4 @@ const Reviews = db.define('reviews',{
 	  }
 })
 
-module.exports = { Reviews };
+module.exports = { Posts };
